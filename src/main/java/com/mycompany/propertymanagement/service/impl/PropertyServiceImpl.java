@@ -20,6 +20,7 @@ public class PropertyServiceImpl implements PropertyService {
         pe.setOwnerEmail(propertyDTO.getOwnerEmail());
         pe.setOwnerName(propertyDTO.getOwnerName());
         pe.setPrice(propertyDTO.getPrice());
+        pe.setDescripition(propertyDTO.getDescripition());
         propertyRepository.save(pe);
         return null;
     }

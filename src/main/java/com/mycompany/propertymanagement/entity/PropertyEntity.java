@@ -18,10 +18,7 @@ public class PropertyEntity {
     private Long id;            //this column act as a primary key column of our table
     @Column(name = "PROPERTY_TITLE",nullable = false)
     private String title;
-    private String descripition;
-    private String ownerName;
-    @Column(name = "EMAIL",nullable = false)
-    private String ownerEmail;
+    private String description;
     private Double price;
     private String address;
 

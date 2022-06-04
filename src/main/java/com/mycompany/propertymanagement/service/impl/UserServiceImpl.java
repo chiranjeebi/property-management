@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
             List<ErrorModel> errorModelList=new ArrayList<>();
             ErrorModel errorModel=new ErrorModel();
             errorModel.setCode("EMAIL_ALREADY_EXITS");
-            errorModel.setMesseage("The Email Which You Are Trying is already Exits!!!");
+            errorModel.setMessage("The Email Which You Are Trying is already Exits!!!");
             errorModelList.add(errorModel);
 
             throw new BusinessException(errorModelList);
@@ -53,7 +53,7 @@ userDTO=userConverter.convertEntityToDTO(optionalUserEntity.get());
        List<ErrorModel> errorModelList=new ArrayList<>();
        ErrorModel errorModel=new ErrorModel();
        errorModel.setCode("INVALID_LOGIN");
-       errorModel.setMesseage("incorrect Email & password");
+       errorModel.setMessage("incorrect Email & password");
        errorModelList.add(errorModel);
 
        throw new BusinessException(errorModelList);

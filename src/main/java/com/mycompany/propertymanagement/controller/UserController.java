@@ -3,6 +3,8 @@ package com.mycompany.propertymanagement.controller;
 
 import com.mycompany.propertymanagement.dto.UserDTO;
 import com.mycompany.propertymanagement.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +23,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "register",notes = "this method is use fro user register")
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> saveProperty(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> saveProperty(@ApiParam(
+            name = "UserDTO",
+            type = "UserDTO",
+            value = "user data",
+            example = "user information",
+            required = true
+    ) @Valid @RequestBody UserDTO userDTO) {
         userDTO = userService.register(userDTO);
 
         ResponseEntity<UserDTO> responseEntity = new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         return responseEntity;
     }
-    @PostMapping("/login")
+    @PostMapping(path = "/login",consumes = {"application/json"},produces = {"applcation/json"})
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
         userDTO = userService.login(userDTO.getOwnerEmail(),userDTO.getPassword());
 

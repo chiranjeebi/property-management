@@ -1,6 +1,8 @@
 package com.mycompany.propertymanagement.controller;
 
 import com.mycompany.propertymanagement.dto.CalculatorDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,10 +28,11 @@ public class CalculatorController {
     }
 
 @PostMapping("/mul")
-    public Double multiply(@RequestBody CalculatorDTO calculatorDTO){
+    public ResponseEntity<Double> multiply(@RequestBody CalculatorDTO calculatorDTO){
         Double result=null;
         result= calculatorDTO.getNum1()*calculatorDTO.getNum2()*calculatorDTO.getNum3()*calculatorDTO.getNum4();
-       return result;
+    ResponseEntity<Double> responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+       return responseEntity;
     }
 
 }

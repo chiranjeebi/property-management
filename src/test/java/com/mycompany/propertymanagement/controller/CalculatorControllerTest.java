@@ -1,21 +1,26 @@
 package com.mycompany.propertymanagement.controller;
 
+import com.mycompany.propertymanagement.dto.CalculatorDTO;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @DisplayName("test addtion scenario sucess")
 @ExtendWith(MockitoExtension.class)
 public class CalculatorControllerTest {
-    @InjectMocks
-    private CalculatorController calculatorController;
+    @InjectMocks                  //to give it to memory other wise we get null pointer exception
+    private CalculatorController calculatorController;      //we can call calculator class here so that we can call its method
 
    static Double num1;
     static Double num2;
     static Double num3;
 
-    @BeforeAll
+    @BeforeAll                         //the intialization happen only once
     static void beforeAll(){
         System.out.println("Before All");
         num1= 11.5 ;
@@ -33,7 +38,7 @@ public class CalculatorControllerTest {
     }
 
 @AfterAll
-    static void afterAll(){
+    static void afterAll(){                     ////the De-intialization happen only once
         System.out.println("After All");
     num1= null;
     num2=null;
@@ -76,7 +81,19 @@ public class CalculatorControllerTest {
         Double result =  calculatorController.subtract(num1,num2+1);
         Assertions.assertEquals(1,result);
     }
+    @Test
+    @DisplayName("Test multiplication")
+    void testMultiply(){
+        CalculatorDTO calculatorDTO=new CalculatorDTO();
+calculatorDTO.setNum1(num1);
+calculatorDTO.setNum2(num2);
+calculatorDTO.setNum3(num3);
+calculatorDTO.setNum4(2.0);
 
+     ResponseEntity<Double> responseEntity = calculatorController.multiply(calculatorDTO);
+     assertEquals(1328.25,responseEntity.getBody());
+     assertEquals(HttpStatus.CREATED.value(),responseEntity.getStatusCodeValue(),"expecting the status as created");
+    }
 
 }
 

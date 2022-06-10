@@ -19,6 +19,6 @@ public Docket appApi(){
   return docket;
 
 }
-///  .paths((PathSelectors.regex("/.*"))).build();
+//paths((PathSelectors.regex("/.*"))).build();
 
 }

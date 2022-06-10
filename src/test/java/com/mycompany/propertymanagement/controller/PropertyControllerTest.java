@@ -3,6 +3,7 @@ package com.mycompany.propertymanagement.controller;
 import com.mycompany.propertymanagement.dto.PropertyDTO;
 import com.mycompany.propertymanagement.service.PropertyService;
 import org.junit.jupiter.api.Assertions;
+import static  org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,9 +46,10 @@ public class PropertyControllerTest {
 
 
       @Test
-      @DisplayName("sucess scenario for fetch all properties properties")
-      void getProperties(){
-          List<PropertyDTO> propertyList = new ArrayList<>();
+      @DisplayName("Test sucess scenario for fetch all properties properties")
+      void testGetProperties(){
+          List<PropertyDTO> propertyList = new ArrayList<>(); //
+
           PropertyDTO dto=new PropertyDTO();
           dto.setId(1L);
           dto.setTitle("'dummy prpoerty");
@@ -55,8 +57,30 @@ public class PropertyControllerTest {
           // do not make the actual call for this propertyService getAllProperties() inside controller rather return dummy object which is  List<PropertyDTO> in the controller
           Mockito.when(propertyService.getAllProperties()).thenReturn(propertyList);
 
+          ResponseEntity<List<PropertyDTO>> responseEntity= propertyController.getAllProperties();
 
           propertyController.getAllProperties();
+assertEquals(1, responseEntity.getBody().size()); //making static import static  org.junit.jupiter.api.Assertions.assertEquals;
+assertEquals(HttpStatus.OK.value(),responseEntity.getStatusCodeValue());
 
       }
+
+      @Test
+      @DisplayName("Test success scenario for update property price")
+      void testUpdatePropertyPrice(){
+      PropertyDTO dto=new PropertyDTO(); //create new dummy propertydto
+          dto.setPrice(5436.65);
+
+          Mockito.when(propertyService.updatePropertyPrice(Mockito.any(),Mockito.anyLong())).thenReturn(dto);
+ResponseEntity<PropertyDTO> responseEntity = propertyController.updatePropertyPrice(dto,1L);
+
+
+         assertEquals(5436.65,responseEntity.getBody().getPrice());
+                                               //making static import static  org.junit.jupiter.api.Assertions.assertEquals;
+                                                  //assertEquals(HttpStatus.OK.value(),responseEntity.getStatusCodeValue());
+          assertEquals(HttpStatus.OK.value(),responseEntity.getStatusCodeValue());
+
+      }
+
+
 }

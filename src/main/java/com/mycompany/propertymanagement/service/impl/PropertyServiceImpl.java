@@ -3,6 +3,7 @@ package com.mycompany.propertymanagement.service.impl;
 import com.mycompany.propertymanagement.converter.PropertyConverter;
 import com.mycompany.propertymanagement.dto.PropertyDTO;
 import com.mycompany.propertymanagement.entity.PropertyEntity;
+import com.mycompany.propertymanagement.exception.BusinessException;
 import com.mycompany.propertymanagement.repository.PropertyRepository;
 import com.mycompany.propertymanagement.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,9 @@ public class PropertyServiceImpl implements PropertyService {
             pe.setDescription(propertyDTO.getDescription());
             dto = propertyConverter.convertEntitytoDTO(pe);
             propertyRepository.save(pe);
+        }else {
+              throw new BusinessException("no property found for update"); //no property found for update
         }
-
         return dto;
     }
 

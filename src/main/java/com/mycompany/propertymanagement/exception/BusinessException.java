@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class BusinessException extends RuntimeException {
-    private List<ErrorModel> errors;
+    private List<ErrorModel> errors;   //calling errormodel class
 
 
 
@@ -19,4 +19,10 @@ public class BusinessException extends RuntimeException {
 
 
     }
+    private String message;
+
+   public BusinessException(String message){
+        this.message= message;
+
+   }
 }

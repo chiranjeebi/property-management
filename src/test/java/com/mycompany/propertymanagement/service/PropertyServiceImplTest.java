@@ -3,10 +3,12 @@ package com.mycompany.propertymanagement.service;
 import com.mycompany.propertymanagement.converter.PropertyConverter;
 import com.mycompany.propertymanagement.dto.PropertyDTO;
 import com.mycompany.propertymanagement.entity.PropertyEntity;
+import com.mycompany.propertymanagement.exception.BusinessException;
 import com.mycompany.propertymanagement.repository.PropertyRepository;
 import com.mycompany.propertymanagement.service.impl.PropertyServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import static  org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -70,8 +72,7 @@ public class PropertyServiceImplTest {
         savedDTO.setId(1L);
 
         Mockito.when(propertyRepository.findAll()).thenReturn(propertyEntities);
-        Mockito.when(propertyConverter.convertEntitytoDTO(Mockito.any())).thenReturn(savedDTO);
-       List<PropertyDTO> listPropsDTO= propertyServiceImpl.getAllProperties();
+        Mockito.when(propertyConverter.convertEntitytoDTO(Mockito.any())).thenReturn(savedDTO);List<PropertyDTO> listPropsDTO= propertyServiceImpl.getAllProperties();
 Assertions.assertEquals(1,listPropsDTO.size());
     }
 
@@ -90,30 +91,36 @@ void testUpdateProperty_Success(){
 
 
       PropertyEntity pe=new PropertyEntity();
-      pe.setId(1L);
+        pe.setId(1L);
         pe.setTitle("Dummy");
-      pe.setPrice(324.4);
+        pe.setPrice(324.4);
         pe.setDescription("dhadsd");
         pe.setAddress("xyz");
         pe.setOwnerName("dsa@gmail.com");
         pe.setOwnerName("jhon");
         when(propertyRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(pe));
-when(propertyConverter.convertEntitytoDTO(Mockito.any())).thenReturn(savedDTO);
+        when(propertyConverter.convertEntitytoDTO(Mockito.any())).thenReturn(savedDTO);
 
-       PropertyDTO updatedPeoperty= propertyServiceImpl.updateProperty(savedDTO,1L);
-       Assertions.assertEquals(savedDTO.getTitle(),updatedPeoperty.getTitle());
+        PropertyDTO updatedPeoperty= propertyServiceImpl.updateProperty(savedDTO,1L);
+        Assertions.assertEquals(savedDTO.getTitle(),updatedPeoperty.getTitle());
         Assertions.assertEquals(savedDTO.getPrice(),updatedPeoperty.getPrice());
         Assertions.assertEquals(savedDTO.getDescription(),updatedPeoperty.getDescription());
         Assertions.assertEquals(savedDTO.getOwnerEmail(),updatedPeoperty.getOwnerEmail());
         Assertions.assertEquals(savedDTO.getAddress(),updatedPeoperty.getAddress());
     }
-
-
     @Test
-    void testUpdatePropertyDescription_Success(){
+    void testUpdatePropertyDescription_Failure(){
+
+        PropertyDTO savedDTO =new PropertyDTO();
+
+        when(propertyRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        BusinessException exception =Assertions.assertThrows(BusinessException.class,()-> {
+            PropertyDTO updatedProperty= propertyServiceImpl.updatePropertyDescription(savedDTO,1L);
+           });
 
 
-
+        Assertions.assertEquals("some message",exception.getMessage());
 
     }
 
